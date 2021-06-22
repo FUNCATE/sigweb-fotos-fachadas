@@ -11,7 +11,7 @@ public class ImportadorFotosFachadas {
 
 	public static void main(String[] args) throws IOException {
 	
-		File path = new File("/dados/projetos/pmsv/Fachadas/");
+		File path = new File("/dados/biomas-saovicente/fotos-fachadas/");
 		
 		ArrayList<FotoFachada> fotos = new ArrayList<FotoFachada>();
 		

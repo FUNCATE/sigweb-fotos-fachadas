@@ -19,7 +19,7 @@ public class FotoFachadaDAO
 
 			Class.forName("org.postgresql.Driver");
 
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/saovicente", "postgres", "postgres");
+			c = DriverManager.getConnection("jdbc:postgresql://192.168.3.152:5432/saovicente", "postgres", "postgres");
 
 //		     c.setAutoCommit(false);
 
@@ -65,7 +65,7 @@ public class FotoFachadaDAO
 
 			Class.forName("org.postgresql.Driver");
 
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/saovicente", "postgres", "postgres");
+			c = DriverManager.getConnection("jdbc:postgresql://192.168.3.152:5432/saovicente", "postgres", "postgres");
 
 			
 			
