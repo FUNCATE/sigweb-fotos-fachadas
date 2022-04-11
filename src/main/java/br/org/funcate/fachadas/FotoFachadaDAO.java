@@ -56,7 +56,7 @@ public class FotoFachadaDAO
 		}
 	}
 	
-	public int insertFichas(ArrayList<FotoFachada> fotos) 
+	public int insertFotosFachadas(ArrayList<FotoFachada> fotos) 
 	{
 		Connection c = null;
 		int inserted = 0;
@@ -72,7 +72,7 @@ public class FotoFachadaDAO
 			for (FotoFachada foto : fotos) 
 			{
 
-				String sql = "insert into public.fotos_fachada (ic, setor, quadra, logradouro, lote, sublote, origem, data) values (?, ?, ?, ?, ?, ?, ?, ?)";
+				String sql = "insert into public.fotos_fachada (ic, setor, quadra, logradouro, lote, sublote, origem, filepath) values (?, ?, ?, ?, ?, ?, ?, ?)";
 				
 				PreparedStatement pstmt  = c.prepareStatement(sql);
 
@@ -83,7 +83,9 @@ public class FotoFachadaDAO
 				pstmt.setString(5, foto.getLote());
 				pstmt.setString(6, foto.getSublote());
 				pstmt.setString(7, foto.getFoto().getName());
-				pstmt.setBinaryStream(8, new FileInputStream(foto.getFoto()));
+				//pstmt.setBinaryStream(8, new FileInputStream(foto.getFoto()));
+				pstmt.setString(8, foto.getFoto().getName());
+
 				
 				pstmt.execute();
 				
