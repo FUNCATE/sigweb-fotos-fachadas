@@ -7,29 +7,29 @@ import java.util.ArrayList;
 
 public class ImportadorFotosFachadas {
 	
-	public static final String EXTENSAO_FOTOS = ".JPG";
+	public static final String[] EXTENSOES_FOTOS = {".JPG", ".PNG"};
 
 	public static void main(String[] args) throws IOException {
 	
 		File path = new File("/dados/projetos/pmsv/Fachadas/");
 		
+		ArrayList<String> ignoredFiles = new ArrayList<String>(); 
+		
 		ArrayList<FotoFachada> fotos = new ArrayList<FotoFachada>();
 		
 		File[] files = path.listFiles();
 		
-		for (File dir : files) 
-		{
-			System.out.println("Listando diretorio: " + dir.getAbsolutePath());
-			if(dir.isDirectory())
-			{
-				for(File fotoFile : dir.listFiles())
+
+				for(File fotoFile : files)
 				{
-					if(fotoFile.getName().contains(ImportadorFotosFachadas.EXTENSAO_FOTOS))
+					String fileExtension = ImportadorFotosFachadas.getFileExtensionIfCompatible(fotoFile.getName());
+					if(fileExtension!=null)
 					{
-						String filename = fotoFile.getName().replace(ImportadorFotosFachadas.EXTENSAO_FOTOS, "");
+						String filenameWOExt=fotoFile.getName().toUpperCase().replace(fileExtension.toUpperCase(), "");
+						
 						FotoFachada foto = new FotoFachada();
 						
-						String[] filenameSplit = filename.split("_");
+						String[] filenameSplit = filenameWOExt.split("_");
 						
 						if(filenameSplit.length>0)
 						{
@@ -38,18 +38,24 @@ public class ImportadorFotosFachadas {
 							
 							fotos.add(foto);
 							
-							//System.out.println(foto);
 						}
+						else
+						{
+							ignoredFiles.add(fotoFile.getName());
+						}
+					}
+					else
+					{
+						ignoredFiles.add(fotoFile.getName());
 					}
 					
 				}
-			}
-			
-		}
+
 		
 		System.out.println("Quantidade de Fotos Processadas: " + fotos.size());
+		System.out.println("Quantidade de Fotos Ignoradas: " + ignoredFiles.size());
 		
-		new FotoFachadaDAO().createTable();
+		//new FotoFachadaDAO().createTable();
 		
 		int inserted = new FotoFachadaDAO().insertFichas(fotos);
 		
@@ -57,6 +63,21 @@ public class ImportadorFotosFachadas {
 		
 		
 		
+	}
+	
+	public static String getFileExtensionIfCompatible(String filename)
+	{
+		String compatible = null;
+		for (String extension : EXTENSOES_FOTOS) 
+		{
+			if(filename.toUpperCase().contains(extension.toUpperCase()))
+			{
+				return extension.toUpperCase();
+			}
+		}
+		
+		return compatible;
+
 	}
 
 }

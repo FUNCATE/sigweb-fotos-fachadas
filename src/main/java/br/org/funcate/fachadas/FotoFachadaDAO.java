@@ -38,7 +38,7 @@ public class FotoFachadaDAO
 					+ "    lote text COLLATE pg_catalog.\"default\" NOT NULL,\n"
 					+ "    sublote text COLLATE pg_catalog.\"default\" NOT NULL,\n"
 					+ "    origem text COLLATE pg_catalog.\"default\" NOT NULL,\n"
-					+ "    data bytea NOT NULL,\n"
+					+ "    filepath text NOT NULL,\n"
 					+ "    CONSTRAINT fotos_fachada_pkey PRIMARY KEY (id)\n"
 					+ ");\n"
 					+ "");
@@ -72,7 +72,7 @@ public class FotoFachadaDAO
 			for (FotoFachada foto : fotos) 
 			{
 
-				String sql = "insert into public.fotos_fachada (ic, setor, quadra, logradouro, lote, sublote, origem, data) values (?, ?, ?, ?, ?, ?, ?, ?)";
+				String sql = "insert into public.fotos_fachada (ic, setor, quadra, logradouro, lote, sublote, origem, filepath) values (?, ?, ?, ?, ?, ?, ?, ?)";
 				
 				PreparedStatement pstmt  = c.prepareStatement(sql);
 
@@ -82,8 +82,8 @@ public class FotoFachadaDAO
 				pstmt.setString(4, foto.getLogradouro());
 				pstmt.setString(5, foto.getLote());
 				pstmt.setString(6, foto.getSublote());
-				pstmt.setString(7, foto.getFoto().getName());
-				pstmt.setBinaryStream(8, new FileInputStream(foto.getFoto()));
+				pstmt.setString(7, foto.getFoto().getAbsolutePath());
+				pstmt.setString(8, foto.getFoto().getName());
 				
 				pstmt.execute();
 				
