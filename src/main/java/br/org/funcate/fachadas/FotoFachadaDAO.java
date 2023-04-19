@@ -21,7 +21,7 @@ public class FotoFachadaDAO
 
 			Class.forName("org.postgresql.Driver");
 
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/saovicente", "postgres", "postgres");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/saovicente", "postgres", "123@pmsv");
 
 //		     c.setAutoCommit(false);
 
@@ -116,7 +116,7 @@ public class FotoFachadaDAO
 
 			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/saovicente", "postgres", "postgres");			
 
-			String sql = "select ic, setor, quadra, logradouro, lote, sublote, origem, filepath from public.fotos_fachada";
+			String sql = "select ic, setor, quadra, logradouro, lote, sublote, origem, filepath from public.fotos_fachada ";
 			
 			PreparedStatement pstmt  = c.prepareStatement(sql);
 
@@ -131,7 +131,8 @@ public class FotoFachadaDAO
 				f.setQuadra(rs.getString("quadra"));
 				f.setLogradouro(rs.getString("logradouro"));
 				f.setLote(rs.getString("lote"));
-				f.setFoto(new File(path+rs.getString("filepath")));
+				String filepath = path+rs.getString("filepath");
+				f.setFoto(new File(filepath));
 
 				fotos.add(f);
 			}			
