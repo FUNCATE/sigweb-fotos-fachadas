@@ -1,9 +1,11 @@
 package br.org.funcate.fachadas;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -101,5 +103,49 @@ public class FotoFachadaDAO
 
 		} 
 		return inserted;
+	}
+	public ArrayList<FotoFachada> getFotos(String path) 
+	{
+		Connection c = null;
+		ArrayList<FotoFachada> fotos = new ArrayList<FotoFachada>();
+
+
+		try {
+
+			Class.forName("org.postgresql.Driver");
+
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/saovicente", "postgres", "postgres");			
+
+			String sql = "select ic, setor, quadra, logradouro, lote, sublote, origem, filepath from public.fotos_fachada";
+			
+			PreparedStatement pstmt  = c.prepareStatement(sql);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while(rs.next())
+			{
+				FotoFachada f = new FotoFachada();
+
+				f.setInscricao(rs.getString("ic"));
+				f.setSetor(rs.getString("setor"));
+				f.setQuadra(rs.getString("quadra"));
+				f.setLogradouro(rs.getString("logradouro"));
+				f.setLote(rs.getString("lote"));
+				f.setFoto(new File(path+rs.getString("filepath")));
+
+				fotos.add(f);
+			}			
+			
+			pstmt.close();
+
+			c.close();
+			
+			
+		} catch (Exception e) {
+
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
+		} 
+		return fotos;
 	}
 }
